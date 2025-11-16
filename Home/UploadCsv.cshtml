@@ -1,0 +1,12 @@
+﻿@model walkeasyfinal.Models.FileUploadViewModel
+
+<h2>Upload Flower CSV File</h2>
+
+<form asp-action="UploadCsv" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label>Select CSV File:</label>
+        <input type="file" asp-for="CsvFile" class="form-control" required />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Upload & Process</button>
+</form>

@@ -1,0 +1,167 @@
+﻿@model ShoeViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.ShoesName - Details</title>
+    <style>
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(to right, #f6f7fb, #eaeaea);
+            color: #333;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin: 30px 0 10px;
+        }
+
+            .logo-container img {
+                width: 220px;
+                height: auto;
+            }
+
+        .shoe-details {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+            transition: 0.3s ease-in-out;
+        }
+
+            .shoe-details:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+            }
+
+            .shoe-details img {
+                width: 100%;
+                max-height: 360px;
+                object-fit: contain;
+                border-radius: 16px;
+                transition: transform 0.4s ease;
+            }
+
+                .shoe-details img:hover {
+                    transform: scale(1.03);
+                }
+
+            .shoe-details h2 {
+                font-size: 30px;
+                font-weight: 700;
+                margin-top: 25px;
+                color: #1f1f1f;
+            }
+
+            .shoe-details p {
+                font-size: 16px;
+                color: #555;
+                margin: 12px 0;
+            }
+
+                .shoe-details p strong {
+                    color: #111;
+                }
+
+        .shoes-price {
+            font-size: 26px;
+            font-weight: 700;
+            color: #e6005c;
+            margin: 20px 0;
+        }
+
+        .button-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 50px;
+            border: none;
+            text-decoration: none;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            letter-spacing: 1px;
+        }
+
+            .btn.buy-now {
+                background: #e6005c;
+                color: white;
+                box-shadow: 0 5px 20px rgba(230, 0, 92, 0.3);
+            }
+
+                .btn.buy-now:hover {
+                    background-color: #c4004c;
+                    box-shadow: 0 7px 25px rgba(230, 0, 92, 0.4);
+                }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 35px;
+            padding: 12px 30px;
+            background-color: #2d2d2d;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+            .back-button:hover {
+                background-color: #000;
+            }
+
+      
+
+        .shoe-details h2 {
+            font-size: 24px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px 20px;
+        }
+
+        .logo-container img {
+            width: 180px;
+        }
+
+        }
+    </style>
+
+
+</head>
+<body>
+   
+
+    <div class="flower-details">
+        <img src="@Url.Content("~/" + Model.Image)" alt="@Model.ShoesName">
+        <h2>@Model.ShoesName</h2>
+        <p><strong>Category:</strong> @Model.Category</p>
+        <p class="shoes-price">₹@Model.Amount</p>
+        <p><strong>Description:</strong> @Model.Description</p>
+
+        <div class="button-container">
+            <a href="@Url.Action("BuyNow", "Home", new { id = Model.Id })" class="btn buy-now">Buy Now</a>
+           
+        </div>
+
+        <a href="@Url.Action("Home", "Home")" class="back-button">Back to Home</a>
+    </div>
+
+</body>
+</html>

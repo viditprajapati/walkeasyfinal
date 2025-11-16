@@ -1,0 +1,165 @@
+﻿@using System.Globalization
+@{
+    var amountStr = ViewBag.Amount as string;
+    var numericAmount = new string(amountStr.Where(c => char.IsDigit(c) || c == '.').ToArray());
+    var parsedAmount = decimal.TryParse(numericAmount, NumberStyles.Any, CultureInfo.InvariantCulture, out var amt) ? amt : 0;
+}
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(to right, #f1f4f7, #dfe9f3);
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        background-color: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        max-width: 600px;
+        margin: 60px auto;
+        padding: 40px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .logo-container {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+        .logo-container img {
+            max-height: 80px;
+        }
+
+    h2 {
+        text-align: center;
+        font-size: 28px;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    form label {
+        font-weight: 600;
+        color: #333;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    form input[type="number"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+
+        form input[type="number"]:focus {
+            border-color: #2980b9;
+            box-shadow: 0 0 6px rgba(41, 128, 185, 0.3);
+            outline: none;
+        }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .amount-display, .total-display {
+        font-size: 18px;
+        font-weight: bold;
+        color: #34495e;
+        margin-top: 10px;
+    }
+
+    .total-display {
+        color: #27ae60;
+        text-align: center;
+    }
+
+    button {
+        background-color: #2980b9;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        display: block;
+        margin: 30px auto 0;
+    }
+
+        button:hover {
+            background-color: #21618c;
+        }
+
+    .back-button {
+        background: none;
+        color: #2980b9;
+        border: 2px solid #2980b9;
+        margin-bottom: 20px;
+    }
+
+        .back-button:hover {
+            background-color: #2980b9;
+            color: #fff;
+        }
+</style>
+
+<div class="container">
+    <div class="logo-container">
+        <img src="~/images/logo.png" alt="Logo" />
+    </div>
+
+    <h2>Shoe Purchase</h2>
+
+    <script>
+        function goBack() {
+            if (document.referrer !== "") {
+                window.location = document.referrer;
+            } else {
+                history.back();
+            }
+        }
+
+        function calculateTotal() {
+            var quantity = parseInt(document.getElementById("quantity").value) || 0;
+            var pricePerItem = parseFloat("@parsedAmount");
+            var total = quantity * pricePerItem;
+            document.getElementById("totalAmount").innerText = "Total: ₹" + total.toFixed(2);
+            document.getElementById("FinalAmount").value = total.toFixed(2);
+        }
+    </script>
+
+    <button type="button" class="back-button" onclick="goBack()">← Back</button>
+
+    <form asp-action="GenerateBill" method="post">
+        <input type="hidden" name="ShoesName" value="@ViewBag.ShoesName" />
+        <input type="hidden" name="Category" value="@ViewBag.Category" />
+        <input type="hidden" name="Amount" value="@ViewBag.Amount" />
+        <input type="hidden" id="FinalAmount" name="FinalAmount" value="@parsedAmount" />
+
+        <div class="form-group">
+            <label>Shoe Name:</label>
+            <div class="amount-display">@ViewBag.ShoesName</div>
+        </div>
+
+        <div class="form-group">
+            <label>Price per Item:</label>
+            <div class="amount-display">₹@parsedAmount</div>
+        </div>
+
+        <div class="form-group">
+            <label>Quantity:</label>
+            <input type="number" id="quantity" name="Quantity" value="1" oninput="calculateTotal()" required />
+        </div>
+
+        <div id="totalAmount" class="total-display">
+            Total: ₹@parsedAmount
+        </div>
+
+        <button type="submit">Generate Bill</button>
+    </form>
+</div>

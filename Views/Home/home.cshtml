@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WalkEase - Home</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+    <style>
+        .logo-container {
+            position: center;
+            top: 9px;
+            left: 10px;
+        }
+
+            .logo-container img {
+                width: 300px;
+                height: 70px;
+            }
+
+        .container.mt-4 {
+            background: rgba(30, 30, 30, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            width: 100vw;
+            min-height: 100vh;
+            overflow: auto;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eaeaea;
+        }
+
+        nav {
+            background-color: #1e1e1e;
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+            nav a {
+                color: #f4f4f4;
+                margin: 0 20px;
+                text-decoration: none;
+                font-size: 16px;
+                font-weight: bold;
+                padding: 10px 15px;
+                border-radius: 5px;
+                transition: all 0.3s ease-in-out;
+            }
+
+                nav a:hover {
+                    background-color: #ffcc00;
+                    color: #1e1e1e;
+                }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+            .search-container input {
+                padding: 12px;
+                font-size: 16px;
+                border: 2px solid #1e1e1e;
+                border-radius: 25px;
+                width: 300px;
+                outline: none;
+            }
+
+            .search-container button {
+                background: #1e1e1e;
+                color: white;
+                padding: 12px 20px;
+                border: none;
+                border-radius: 25px;
+                margin-left: 10px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: 0.3s;
+            }
+
+                .search-container button:hover {
+                    background: #ffcc00;
+                    color: #1e1e1e;
+                }
+
+        .slideshow-container {
+            position: relative;
+            max-width: 90%;
+            height: 250px;
+            text-align: center;
+            margin: 10px auto;
+            overflow: hidden;
+        }
+
+            .slideshow-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .slide {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+            .slide.active {
+                display: block;
+            }
+
+        .shoes-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .Shoes-card {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            width: 200px;
+            height: 200px;
+            text-align: center;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .Shoes-card img {
+                width: 100%;
+                height: 120px;
+                object-fit: cover;
+                border-bottom: 2px solid #1e1e1e;
+            }
+
+            .Shoes-card:hover {
+                transform: translateY(-5px) scale(1.05);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            }
+
+            .Shoes-card h5 {
+                padding: 10px;
+                font-weight: bold;
+                color: #1e1e1e;
+                margin: 0;
+                font-size: 16px;
+            }
+
+        footer {
+            background-color: #1e1e1e;
+            color: #ffcc00;
+            text-align: center;
+            padding: 15px;
+            border-top: 3px solid #ffcc00;
+            width: 100%;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+  
+
+    <nav>
+        <a href="/Home/Home">Home</a>
+        <a href="/User/UpdateProfile">UpdateProfile</a>
+        <a href="/Feedback/Create">Feedback</a>
+        <a href="@(Context.Session.GetString("User Email") != null ? "/User/Logout" : "/User/Login")">
+            @(Context.Session.GetString("User Email") != null ? "Log Out" : "Logout")
+        </a>
+    </nav>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search shoes here...">
+        <button>Search</button>
+    </div>
+
+    <div class="slideshow-container">
+        <div class="slide"><img src="/images/adidas1.jpeg" alt="Shoe1"></div>
+        <div class="slide"><img src="/images/asics1.jpeg" alt="Shoe2"></div>
+        <div class="slide"><img src="/images/gucci1.jpeg" alt="Shoe3"></div>
+    </div>
+
+    <div class="shoes-container">
+        @foreach (var shoes in Model)
+        {
+            var imgpath = "/" + shoes.Image;
+            <a href="@Url.Action("Display", "Home", new { id = shoes.Id })" style="text-decoration: none; color: inherit;">
+                <div class="Shoes-card">
+                    <h5>@shoes.ShoesName</h5>
+                    <img src="@imgpath" alt="@shoes.ShoesName">
+                    <p>Price: @shoes.Amount</p>
+                </div>
+            </a>
+        }
+    </div>
+
+    <footer>
+        <p>&copy; <script>document.write(new Date().getFullYear());</script> WalkEase. All rights reserved.</p>
+    </footer>
+
+    <script>
+        $(function () {
+            $("#searchInput").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Home/SearchSuggestions",
+                        type: "GET",
+                        dataType: "json",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.label,
+                                    value: item.value
+                                };
+                            }));
+                        }
+                    });
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    // Redirect to the shoe detail page
+                    window.location.href = "/Home/Display/" + ui.item.value;
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlides() {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+            });
+
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1; }
+
+            slides[slideIndex - 1].classList.add('active');
+            setTimeout(showSlides, 3000);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            if (slides.length > 0) {
+                slides[0].classList.add('active');
+                showSlides();
+            }
+        });
+    </script>
+</body>
+</html>

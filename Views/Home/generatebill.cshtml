@@ -1,0 +1,120 @@
+﻿@model walkeasyfinal.Models.BillViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Bill Summary</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #f0f2f5, #e3e3e3);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background: white;
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+            td:first-child {
+                font-weight: 600;
+                color: #444;
+                width: 40%;
+            }
+
+        .button-group {
+            text-align: center;
+        }
+
+        button,
+        .btn {
+            background-color: #343a40;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 10px;
+            margin: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+            button:hover,
+            .btn:hover {
+                background-color: #1d2124;
+            }
+
+        .btn-success {
+            background-color: #28a745;
+        }
+
+            .btn-success:hover {
+                background-color: #218838;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Bill Summary</h2>
+
+        <table>
+            <tr><td>User ID:</td><td>@Model.UserId</td></tr>
+            <tr><td>Name:</td><td>@Model.Name</td></tr>
+            <tr><td>Email:</td><td>@Model.Email</td></tr>
+            <tr><td>Address:</td><td>@Model.Address</td></tr>
+            <tr><td>Mobile No:</td><td>@Model.MobileNo</td></tr>
+            <tr><td>Gender:</td><td>@Model.Gender</td></tr>
+            <tr><td>Shoe Name:</td><td>@Model.ShoesName</td></tr>
+            <tr><td>Category:</td><td>@Model.Category</td></tr>
+            <tr><td>Quantity:</td><td>@Model.Quantity</td></tr>
+            <tr><td>Total Amount:</td><td>₹@Model.Amount</td></tr>
+        </table>
+
+        <div class="button-group">
+            <button onclick="goBack()">← Back</button>
+            <button onclick="window.print()">🖨️ Print Bill</button>
+            <a href="@Url.Action("Checkout", "Payment", new { amount = Model.Amount })" class="btn btn-success">
+                Proceed to Checkout
+            </a>
+
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            if (document.referrer !== "") {
+                window.location = document.referrer;
+            } else {
+                history.back();
+            }
+        }
+    </script>
+</body>
+</html>
